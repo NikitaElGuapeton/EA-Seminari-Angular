@@ -29,6 +29,7 @@
           <th></th>
           <th>Título</th>
           <th>Descripción</th>
+          <th>Editorial</th>
           <th>Autores</th>
           <th>Idioma</th>
           <th>Año</th>
@@ -59,6 +60,10 @@
             </td>
 
             <td>
+              {{ book.publisher || '—' }}
+            </td>
+            
+            <td>
               <!-- Si se borra el único autor de un libro, la API lo devuelve sin autores -->
               @for (author of book.authors; track author._id; let last = $last) {
                 {{ author.name }}{{ last ? '' : ', ' }}
@@ -84,7 +89,7 @@
           </tr>
         } @empty {
           <tr>
-            <td class="empty" colspan="9">
+            <td class="empty" colspan="10">
               @if (search()) {
                 No hay resultados para "{{ search() }}"
               } @else {
@@ -108,6 +113,11 @@
           />
           <div class="card-body">
             <h3>{{ book.title }}</h3>
+            @if (book.publisher) {
+              <span 
+                class="muted">{{ book.publisher }}
+              </span>
+            }
             <span class="muted">
               @for (author of book.authors; track author._id; let last = $last) {
                 {{ author.name }}{{ last ? '' : ', ' }}
